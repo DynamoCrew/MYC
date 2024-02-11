@@ -57,24 +57,31 @@ class VideoMetadata:
         return dict_meta.get('title', '')
 
     def get_caption(self):
+
+        # extractor for TEXT_AND_TIME 
         timed_transcript = YouTubeTranscriptApi.list_transcripts(self.video_id)
-        full_transcript = YouTubeTranscriptApi.get_transcript(self.video_id)
+        timed_data = []
 
         # iterate over all available transcripts
         for transcript in timed_transcript:
-            timed_data = transcript.fetch()
+            segments = transcript.fetch()
+
+            # extract text and start fields and add to timed_data
+            for segment in segments:
+                timed_data.append({"text": segment['text'], "start":segment["start"]})
         
+        with open("timed_text.json", "w") as file:
+            json.dump(timed_data, file, indent=3)
+        #------END of TEXT_AND_TIME-------------------
+            
+        # extractor for TEXT_ONLY caption
+        full_transcript = YouTubeTranscriptApi.get_transcript(self.video_id)
         # write whole video transcript to subtitle.txt
-        with open("subtitles.txt", "a") as file:
+        with open("subtitles.txt", "w") as file:
             for i in full_transcript:
                 file.write(i['text'])
-
-        # write list of dicts to json and export as "timed_text.json"
-        json_data = json.dumps(timed_data, indent=3)
-        with open("timed_text.json", "w") as file:
-            file.write(json_data)
-
-
+        #------END of TEXT_ONLY-----------------------
+    
 # Input video link
 video_link = input("Enter the YouTube video link: ")
 
