@@ -1,13 +1,13 @@
 {
-  "name": "yt-productive",
+  "name": "myc",
   "version": "1.0",
-  "description": "Don't get distracted by other youtube videos & recommended videos, while you are being productive!",
+  "description": "wow wow wow wow wow wow wow wow wow wow wow wow wow wow wow wow wow wow",
   "manifest_version": 2,
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
-  "author": "vivek9patel",
+  "author": "kllarena07",
   "content_scripts": [
     {
       "js": ["content.js"],
